@@ -3,11 +3,10 @@
   "loading_order": 50,
   "requires": [],
   "optional": [],
-  "js": "src/index.js",
-  "css": "style.css",
+  "js": "dist/index.js",
+  "css": "dist/style.css",
   "author": "HentaiLocal Contributors",
   "version": "1.0.0",
   "homePage": "https://github.com/yourusername/HentaiLocal",
-  "auto_update": true,
-  "run_as_source": true
+  "auto_update": true
 }

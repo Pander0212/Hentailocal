@@ -65,7 +65,16 @@ class AINaming {
    * Get request headers for API calls
    */
   getRequestHeaders() {
-    return SillyTavern.getContext().getRequestHeaders();
+    try {
+      const context = SillyTavern?.getContext?.();
+      if (!context || typeof context.getRequestHeaders !== 'function') {
+        return { 'Content-Type': 'application/json' };
+      }
+      return context.getRequestHeaders();
+    } catch (e) {
+      console.warn('[AINaming] Failed to get request headers:', e);
+      return { 'Content-Type': 'application/json' };
+    }
   }
 
   /**

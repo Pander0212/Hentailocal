@@ -3,6 +3,7 @@
 /* global SillyTavern */
 
 import { createRoot } from 'react-dom/client';
+import '../style.css';
 import Gallery from './Gallery';
 import GroupGallery from './GroupGallery';
 import BooruScraper from './BooruScraper';
@@ -1004,91 +1005,121 @@ function addGalleryButton() {
 }
 
 /**
- * Initialize extension
+ * Wait for SillyTavern to be available
+ * @param {number} maxWait - Maximum wait time in milliseconds
+ * @returns {Promise<void>}
  */
-function init() {
-  initSettings();
-  registerMessageHandler();
+function waitForSillyTavern(maxWait = 10000) {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
 
-  const context = SillyTavern.getContext();
+    const check = () => {
+      if (typeof SillyTavern !== 'undefined' && SillyTavern.getContext) {
+        resolve();
+      } else if (Date.now() - startTime > maxWait) {
+        console.error('[HentaiLocal] SillyTavern not available after ' + maxWait + 'ms');
+        reject(new Error('SillyTavern not available'));
+      } else {
+        setTimeout(check, 100);
+      }
+    };
 
-  if (context.eventSource && context.eventTypes) {
-    context.eventSource.on(context.eventTypes.CHAT_CHANGED, () => {
-      setTimeout(() => {
-        addGalleryButton();
-        processAllMessages();
-        updateFloatingPanel();
-      }, 500);
-    });
+    check();
+  });
+}
 
-    // Listen for prompt generation to inject image list
-    if (context.eventTypes.GENERATE_BEFORE_COMBINE_PROMPTS) {
-      context.eventSource.on(context.eventTypes.GENERATE_BEFORE_COMBINE_PROMPTS, () => {
-        const prompts = [];
+/**
+ * Initialize extension with proper error handling
+ */
+async function init() {
+  try {
+    // Wait for SillyTavern to be ready first
+    await waitForSillyTavern();
 
-        // Handle group chats
-        if (isGroupChat()) {
-          const group = getCurrentGroup();
-          if (group) {
-            const groupSettings = getCharacterSettings(group.name);
-            if (groupSettings.injectPrompt) {
-              const groupPrompt = generateImageListPrompt(group.name);
-              if (groupPrompt) prompts.push(groupPrompt);
+    initSettings();
+    registerMessageHandler();
+
+    const context = SillyTavern.getContext();
+
+    if (context.eventSource && context.eventTypes) {
+      context.eventSource.on(context.eventTypes.CHAT_CHANGED, () => {
+        setTimeout(() => {
+          addGalleryButton();
+          processAllMessages();
+          updateFloatingPanel();
+        }, 500);
+      });
+
+      if (context.eventTypes.GENERATE_BEFORE_COMBINE_PROMPTS) {
+        context.eventSource.on(context.eventTypes.GENERATE_BEFORE_COMBINE_PROMPTS, () => {
+          const prompts = [];
+
+          if (isGroupChat()) {
+            const group = getCurrentGroup();
+            if (group) {
+              const groupSettings = getCharacterSettings(group.name);
+              if (groupSettings.injectPrompt) {
+                const groupPrompt = generateImageListPrompt(group.name);
+                if (groupPrompt) prompts.push(groupPrompt);
+              }
+
+              const memberNames = getGroupMemberNames(group.members);
+              for (const memberName of memberNames) {
+                const memberSettings = getCharacterSettings(memberName);
+                if (memberSettings.injectPrompt) {
+                  const memberPrompt = generateImageListPrompt(memberName);
+                  if (memberPrompt) prompts.push(memberPrompt);
+                }
+              }
             }
-
-            // Also inject member image lists if they have injectPrompt enabled
-            const memberNames = getGroupMemberNames(group.members);
-            for (const memberName of memberNames) {
-              const memberSettings = getCharacterSettings(memberName);
-              if (memberSettings.injectPrompt) {
-                const memberPrompt = generateImageListPrompt(memberName);
-                if (memberPrompt) prompts.push(memberPrompt);
+          } else {
+            const charName = getCurrentCharacterName();
+            if (charName) {
+              const charSettings = getCharacterSettings(charName);
+              if (charSettings.injectPrompt) {
+                const prompt = generateImageListPrompt(charName);
+                if (prompt) prompts.push(prompt);
               }
             }
           }
-        } else {
-          // Single character chat
-          const charName = getCurrentCharacterName();
-          if (charName) {
-            const charSettings = getCharacterSettings(charName);
-            if (charSettings.injectPrompt) {
-              const prompt = generateImageListPrompt(charName);
-              if (prompt) prompts.push(prompt);
-            }
+
+          if (prompts.length === 0) return;
+
+          const combinedPrompt = prompts.join('\n\n');
+          const extensionPrompt = context.extensionPrompts?.[EXTENSION_NAME];
+          if (extensionPrompt === undefined) {
+            context.setExtensionPrompt(EXTENSION_NAME, combinedPrompt, 1, 0);
           }
-        }
-
-        if (prompts.length === 0) return;
-
-        // Inject into extension prompt (Author's Note style)
-        const combinedPrompt = prompts.join('\n\n');
-        const extensionPrompt = context.extensionPrompts?.[EXTENSION_NAME];
-        if (extensionPrompt === undefined) {
-          context.setExtensionPrompt(EXTENSION_NAME, combinedPrompt, 1, 0);
-        }
-      });
+        });
+      }
     }
+
+    setTimeout(() => {
+      addGalleryButton();
+      createFloatingButton();
+    }, 100);
+
+    // Load AI naming settings safely
+    const settings = getSettings();
+    if (settings.aiNaming) {
+      try {
+        AINaming.loadSettings(settings);
+      } catch (e) {
+        console.warn('[HentaiLocal] Failed to load AI naming settings:', e);
+      }
+    }
+
+    console.log('[HentaiLocal] Extension initialized');
+  } catch (error) {
+    console.error('[HentaiLocal] Failed to initialize:', error);
   }
-
-  setTimeout(() => {
-    addGalleryButton();
-    createFloatingButton();
-  }, 100);
-
-  // Load AI naming settings
-  const settings = getSettings();
-  if (settings.aiNaming) {
-    AINaming.loadSettings(settings);
-  }
-
-  console.log(`[${EXTENSION_NAME}] Extension initialized`);
 }
 
-// Initialize when DOM is ready
+// Initialize when DOM is ready with async handling
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', () => init().catch(console.error));
 } else {
-  init();
+  init().catch(console.error);
 }
 
 export { BooruScraper, AINaming, SettingsPanel, addCustomPrompt, updateCustomPrompt, deleteCustomPrompt };

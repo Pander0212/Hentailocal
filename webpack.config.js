@@ -3,8 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   entry: {
-    index: './src/index.js',
-    style: './style.css'
+    index: './src/index.js'
   },
   output: {
     filename: '[name].js',
@@ -31,10 +30,15 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: '[name].css'
+      filename: 'style.css'
     })
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.json']
+  },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+    'react-dom/client': ['ReactDOM', 'createRoot']
   }
 };
