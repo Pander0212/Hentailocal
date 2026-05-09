@@ -1,0 +1,12 @@
+{
+  "display_name": "HentaiLocal",
+  "loading_order": 50,
+  "requires": [],
+  "optional": [],
+  "js": "dist/index.js",
+  "css": "dist/style.css",
+  "author": "HentaiLocal Contributors",
+  "version": "1.0.0",
+  "homePage": "https://github.com/yourusername/HentaiLocal",
+  "auto_update": true
+}
