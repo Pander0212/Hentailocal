@@ -1012,14 +1012,14 @@ function init() {
 
   const context = SillyTavern.getContext();
 
-   if (context.eventSource && context.eventTypes) {
-     context.eventSource.on(context.eventTypes.CHAT_CHANGED, () => {
-       setTimeout(() => {
-         addGalleryButton();
-         processAllMessages();
-         updateFloatingPanel();
-       }, 500);
-     });
+  if (context.eventSource && context.eventTypes) {
+    context.eventSource.on(context.eventTypes.CHAT_CHANGED, () => {
+      setTimeout(() => {
+        addGalleryButton();
+        processAllMessages();
+        updateFloatingPanel();
+      }, 500);
+    });
 
     // Listen for prompt generation to inject image list
     if (context.eventTypes.GENERATE_BEFORE_COMBINE_PROMPTS) {
@@ -1070,10 +1070,10 @@ function init() {
     }
   }
 
-   setTimeout(() => {
-     addGalleryButton();
-     createFloatingButton();
-   }, 100);
+  setTimeout(() => {
+    addGalleryButton();
+    createFloatingButton();
+  }, 100);
 
   // Load AI naming settings
   const settings = getSettings();
