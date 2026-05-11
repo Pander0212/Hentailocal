@@ -1,12 +1,12 @@
 {
-  "display_name": "HentaiLocal",
-  "loading_order": 50,
-  "requires": [],
-  "optional": [],
-  "js": "dist/index.js",
-  "css": "dist/style.css",
-  "author": "HentaiLocal Contributors",
-  "version": "1.0.0",
-  "homePage": "https://github.com/yourusername/HentaiLocal",
-  "auto_update": true
+    "display_name": "HentaiLocal",
+    "loading_order": 1,
+    "requires": [],
+    "optional": [],
+    "js": "dist/index.js",
+    "css": "style.css",
+    "author": "HentaiLocal",
+    "version": "1.0.0",
+    "homePage": "https://github.com/user/HentaiLocal",
+    "auto_update": true
 }

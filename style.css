@@ -1,975 +1,1269 @@
-/* HentaiLocal Extension Styles */
-/* Combines dark/hentai-friendly theme with LocalImage gallery styles */
+/* ========================================
+   HentaiLocal - Combined Extension Styles
+   ======================================== */
 
-:root {
-  --hentai-primary: #8a2be2;
-  --hentai-primary-dark: #6a1fb0;
-  --hentai-accent: #ff69b4;
-  --hentai-bg: #0a0a0a;
-  --hentai-bg-secondary: #1a1a1a;
-  --hentai-bg-tertiary: #252525;
-  --hentai-text: #e0e0e0;
-  --hentai-text-muted: #a0a0a0;
-  --hentai-border: #3a3a3a;
+/* ========================================
+   Root container for modals
+   ======================================== */
+#local-image-gallery-root {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 99999 !important;
+    pointer-events: none;
 }
 
-/* Root container for React root */
-#hentai-local-gallery-root {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  z-index: 99999 !important;
-  pointer-events: none;
+#local-image-gallery-root:has(.local-image-modal-backdrop) {
+    pointer-events: auto;
 }
 
-#hentai-local-gallery-root:has(.local-image-modal-backdrop) {
-  pointer-events: auto;
-}
-
-/* Modal Backdrop */
+/* ========================================
+   Modal Backdrop & Container
+   ======================================== */
 .local-image-modal-backdrop {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  background: rgba(0, 0, 0, 0.85);
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  z-index: 99999 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 99999 !important;
 }
 
-/* Modal Container */
 .local-image-modal {
-  background: var(--hentai-bg);
-  border: 1px solid var(--hentai-border);
-  border-radius: 10px;
-  width: 90%;
-  max-width: 900px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    background: var(--SmartThemeBlurTintColor, #1a1a1a);
+    border: 1px solid var(--SmartThemeBorderColor, #333);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 900px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(180, 60, 200, 0.1);
 }
 
-.local-image-modal-large {
-  max-width: 1100px;
-}
-
-/* Modal Header */
 .local-image-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid var(--hentai-border);
-  flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, #333);
+    flex-shrink: 0;
 }
 
 .local-image-modal-header h3 {
-  margin: 0;
-  color: var(--hentai-accent);
-  font-size: 1.1em;
+    margin: 0;
+    color: var(--SmartThemeBodyColor, #fff);
+    font-size: 1.1em;
 }
 
 .local-image-modal-actions {
-  display: flex;
-  gap: 8px;
+    display: flex;
+    gap: 8px;
 }
 
 .local-image-modal-actions button {
-  padding: 8px 12px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 36px;
-  height: 36px;
-  background: var(--hentai-bg-tertiary);
-  color: var(--hentai-text);
+    padding: 8px 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
 }
 
 .local-image-modal-actions button:hover {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 
-/* Modal Content */
 .local-image-modal-content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  min-height: 200px;
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    min-height: 200px;
 }
 
-/* Image Grid */
+/* ========================================
+   Image Grid
+   ======================================== */
 .local-image-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 12px;
-}
-
-.local-image-grid-small {
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
 }
 
 .local-image-item {
-  aspect-ratio: 1;
-  overflow: hidden;
-  border-radius: 8px;
-  cursor: pointer;
-  position: relative;
-  border: 2px solid transparent;
-  transition: border-color 0.2s, transform 0.2s;
-}
-
-.local-image-item-small {
-  aspect-ratio: 1;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s;
 }
 
 .local-image-item:hover {
-  border-color: var(--hentai-primary);
-  transform: scale(1.02);
+    border-color: #b43cd8;
+    transform: scale(1.02);
 }
 
 .local-image-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .local-image-item.assigned {
-  border-color: rgba(138, 43, 226, 0.5);
+    border-color: rgba(180, 60, 216, 0.5);
+}
+
+/* AI Naming Overlay */
+.local-image-item.ai-naming {
+    border-color: #b43cd8;
+}
+
+.ai-naming-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(180, 60, 216, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    backdrop-filter: blur(2px);
 }
 
 /* Assignment Label */
 .assignment-label {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.85);
-  padding: 4px 6px;
-  font-size: 10px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 4px 6px;
+    font-size: 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .assignment-name {
-  color: var(--hentai-primary);
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    color: #b43cd8;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .assignment-desc {
-  color: #aaa;
-  font-size: 9px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    color: #aaa;
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.local-image-item-small .assignment-label {
-  padding: 2px 4px;
-  font-size: 9px;
-}
-
-.local-image-item-small .assignment-name {
-  font-size: 9px;
-}
-
-/* Settings Panel */
-.local-image-settings {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 15px 20px;
-  border-bottom: 1px solid var(--hentai-border);
-}
-
-.settings-row {
-  margin-bottom: 10px;
-}
-
-.settings-row:last-child {
-  margin-bottom: 0;
-}
-
-.settings-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  color: var(--hentai-text);
-}
-
-.settings-coming-soon {
-  color: var(--hentai-text-muted);
-  font-style: italic;
-  padding: 10px 0;
-}
-
-.settings-checkbox input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  accent-color: var(--hentai-primary);
-}
-
-.settings-label {
-  display: block;
-  margin-bottom: 5px;
-  color: var(--hentai-text);
-  font-size: 0.9em;
-}
-
-.settings-input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--hentai-border);
-  border-radius: 5px;
-  background: var(--hentai-bg);
-  color: var(--hentai-text);
-  font-size: 0.9em;
-}
-
-.settings-input::placeholder {
-  color: var(--hentai-text-muted);
-}
-
-.settings-input:focus {
-  outline: none;
-  border-color: var(--hentai-primary);
-}
-
-.settings-textarea {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--hentai-border);
-  border-radius: 5px;
-  background: var(--hentai-bg);
-  color: var(--hentai-text);
-  font-size: 0.9em;
-  resize: vertical;
-  min-height: 60px;
-  margin-top: 8px;
-  font-family: inherit;
-}
-
-.settings-textarea:focus {
-  outline: none;
-  border-color: var(--hentai-primary);
-}
-
-.settings-prompt-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.settings-select {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid var(--hentai-border);
-  border-radius: 5px;
-  background: var(--hentai-bg-secondary);
-  color: var(--hentai-text);
-  font-size: 0.9em;
-  cursor: pointer;
-}
-
-.settings-select:focus {
-  outline: none;
-  border-color: var(--hentai-primary);
-}
-
-.settings-btn {
-  padding: 8px 10px;
-  border: 1px solid var(--hentai-border);
-  border-radius: 5px;
-  background: var(--hentai-bg-secondary);
-  color: var(--hentai-text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 34px;
-  transition: background 0.15s, border-color 0.15s;
-}
-
-.settings-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--hentai-primary);
-}
-
-.settings-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.settings-btn-danger:hover:not(:disabled) {
-  background: rgba(255, 0, 0, 0.2);
-  border-color: #ff6b6b;
-  color: #ff6b6b;
-}
-
-.settings-btn-primary {
-  background: var(--hentai-primary);
-  border-color: var(--hentai-primary);
-}
-
-.settings-btn-primary:hover:not(:disabled) {
-  background: var(--hentai-primary-dark);
-}
-
-.settings-editor {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 12px;
-  border-radius: 5px;
-  border: 1px solid var(--hentai-border);
-}
-
-.settings-editor-hint {
-  font-size: 0.8em;
-  color: var(--hentai-text-muted);
-  margin-top: 5px;
-}
-
-.settings-editor-hint code {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 2px 5px;
-  border-radius: 3px;
-  color: var(--hentai-primary);
-}
-
-.settings-editor-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  justify-content: flex-end;
-}
-
-.settings-preview {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 5px;
-}
-
-.settings-preview-label {
-  display: block;
-  font-size: 0.8em;
-  color: var(--hentai-text-muted);
-  margin-bottom: 5px;
-}
-
-.settings-preview-text {
-  display: block;
-  font-size: 0.85em;
-  color: var(--hentai-text);
-  word-break: break-word;
-  white-space: pre-wrap;
-  max-height: 150px;
-  overflow-y: auto;
-  margin: 0;
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-}
-
-/* Info Banner */
-.local-image-info {
-  background: rgba(138, 43, 226, 0.2);
-  color: var(--hentai-text);
-  padding: 10px 20px;
-  text-align: center;
-  border-bottom: 1px solid rgba(138, 43, 226, 0.3);
-  font-size: 0.9em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.local-image-info code {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 2px 6px;
-  border-radius: 3px;
-  font-family: monospace;
-}
-
-.assigned-count {
-  color: var(--hentai-primary);
-  font-size: 0.85em;
-}
-
-/* Active button state */
-.menu_button_active {
-  background: var(--hentai-primary) !important;
-  color: white !important;
-}
-
-/* Options Menu */
+/* ========================================
+   Options Menu
+   ======================================== */
 .local-image-options-menu {
-  position: fixed;
-  background: var(--hentai-bg-secondary);
-  border: 1px solid var(--hentai-border);
-  border-radius: 8px;
-  padding: 5px 0;
-  min-width: 180px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-  z-index: 100001;
+    position: fixed;
+    background: var(--SmartThemeBlurTintColor, #222);
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 8px;
+    padding: 5px 0;
+    min-width: 200px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(180, 60, 216, 0.1);
+    z-index: 100001;
 }
 
 .options-menu-item {
-  padding: 10px 15px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--hentai-text);
-  transition: background 0.15s;
+    padding: 10px 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--SmartThemeBodyColor, #fff);
+    transition: background 0.15s;
 }
 
 .options-menu-item:hover {
-  background: rgba(255, 255, 255, 0.1);
+    background: rgba(180, 60, 216, 0.15);
 }
 
 .options-menu-item i {
-  width: 16px;
-  text-align: center;
-  opacity: 0.8;
+    width: 16px;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.options-menu-item-ai {
+    color: #b43cd8;
+}
+
+.options-menu-item-ai:hover {
+    background: rgba(180, 60, 216, 0.25);
 }
 
 .options-menu-item-danger {
-  color: #ff6b6b;
+    color: #ff6b6b;
 }
 
 .options-menu-item-danger:hover {
-  background: rgba(255, 0, 0, 0.2);
+    background: rgba(255, 0, 0, 0.2);
 }
 
 .options-menu-info {
-  padding: 10px 15px;
-  color: var(--hentai-text-muted);
-  font-size: 0.85em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-top: 1px solid var(--hentai-border);
-  margin-top: 5px;
+    padding: 10px 15px;
+    color: #888;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-top: 1px solid var(--SmartThemeBorderColor, #333);
+    margin-top: 5px;
 }
 
-/* Loading State */
-.local-image-loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  color: var(--hentai-text-muted);
+.options-menu-info i {
+    color: #b43cd8;
 }
 
-/* Empty State */
+/* ========================================
+   Settings Panel (in Gallery)
+   ======================================== */
+.local-image-settings {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, #333);
+}
+
+.settings-row { margin-bottom: 10px; }
+.settings-row:last-child { margin-bottom: 0; }
+
+.settings-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    color: var(--SmartThemeBodyColor, #fff);
+}
+
+.settings-coming-soon {
+    color: #888;
+    font-style: italic;
+    padding: 10px 0;
+}
+
+.settings-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.settings-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ccc;
+    font-size: 0.9em;
+}
+
+.settings-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: var(--SmartThemeBlurTintColor, #1a1a1a);
+    color: var(--SmartThemeBodyColor, #fff);
+    font-size: 0.9em;
+}
+
+.settings-input::placeholder { color: #666; }
+.settings-input:focus { outline: none; border-color: #b43cd8; }
+
+.settings-prompt-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.settings-select {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: var(--SmartThemeBlurTintColor, #1a1a1a);
+    color: var(--SmartThemeBodyColor, #fff);
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.settings-select:focus { outline: none; border-color: #b43cd8; }
+
+.settings-btn {
+    padding: 8px 10px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: var(--SmartThemeBlurTintColor, #1a1a1a);
+    color: var(--SmartThemeBodyColor, #fff);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.settings-btn:hover:not(:disabled) { background: rgba(180, 60, 216, 0.15); border-color: #b43cd8; }
+.settings-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.settings-btn-danger:hover:not(:disabled) { background: rgba(255, 0, 0, 0.2); border-color: #ff6b6b; color: #ff6b6b; }
+
+.settings-btn-primary { background: #b43cd8; border-color: #b43cd8; }
+.settings-btn-primary:hover:not(:disabled) { background: #9a2fb8; }
+
+.settings-preview { background: rgba(0, 0, 0, 0.3); padding: 10px; border-radius: 5px; margin-top: 5px; }
+.settings-preview-label { display: block; font-size: 0.8em; color: #888; margin-bottom: 5px; }
+
+.settings-preview-text {
+    display: block;
+    font-size: 0.85em;
+    color: #ccc;
+    word-break: break-word;
+    white-space: pre-wrap;
+    max-height: 150px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.settings-editor { background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 5px; border: 1px solid var(--SmartThemeBorderColor, #444); }
+
+.settings-textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: var(--SmartThemeBlurTintColor, #1a1a1a);
+    color: var(--SmartThemeBodyColor, #fff);
+    font-size: 0.9em;
+    resize: vertical;
+    min-height: 60px;
+    margin-top: 8px;
+    font-family: inherit;
+}
+
+.settings-textarea:focus { outline: none; border-color: #b43cd8; }
+.settings-editor-hint { font-size: 0.8em; color: #888; margin-top: 5px; }
+.settings-editor-hint code { background: rgba(180, 60, 216, 0.2); padding: 2px 5px; border-radius: 3px; color: #b43cd8; }
+.settings-editor-actions { display: flex; gap: 8px; margin-top: 12px; justify-content: flex-end; }
+.menu_button_active { background: #b43cd8 !important; color: white !important; }
+
+/* ========================================
+   Info Banner & Status
+   ======================================== */
+.local-image-info {
+    background: rgba(180, 60, 216, 0.15);
+    color: var(--SmartThemeBodyColor, #fff);
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(180, 60, 216, 0.3);
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.local-image-info code {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+    color: #b43cd8;
+}
+
+.assigned-count { color: #b43cd8; font-size: 0.85em; }
+
+.local-image-loading { display: flex; justify-content: center; align-items: center; height: 200px; color: #999; }
+
 .local-image-empty {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  color: var(--hentai-text-muted);
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: #999;
+    text-align: center;
 }
 
-.local-image-empty p {
-  margin: 5px 0;
-}
+.local-image-empty p { margin: 5px 0; }
 
-.local-image-empty-small {
-  padding: 20px;
-  text-align: center;
-  color: #666;
-  font-size: 0.9em;
-}
-
-/* Error State */
 .local-image-error {
-  background: rgba(239, 68, 68, 0.2);
-  color: #ff6b6b;
-  padding: 10px 20px;
-  text-align: center;
-  border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff6b6b;
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.3);
 }
 
-/* Uploading State */
 .local-image-uploading {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--hentai-bg-secondary);
-  padding: 10px 20px;
-  border-radius: 20px;
-  color: var(--hentai-text);
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(180, 60, 216, 0.9);
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-/* Lightbox */
+/* ========================================
+   Lightbox
+   ======================================== */
 .local-image-lightbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.95);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  cursor: pointer;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.97);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    cursor: pointer;
 }
 
 .local-image-lightbox img {
-  max-width: 95%;
-  max-height: 95%;
-  object-fit: contain;
-  border-radius: 4px;
+    max-width: 95%;
+    max-height: 95%;
+    object-fit: contain;
+    border-radius: 4px;
 }
 
 .lightbox-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.lightbox-close:hover {
-  background: rgba(255, 255, 255, 0.2);
+.lightbox-close:hover { background: rgba(255, 255, 255, 0.2); }
+
+/* ========================================
+   Gallery button in character panel
+   ======================================== */
+#local_image_button,
+#hentailocal-scraper-btn {
+    cursor: pointer;
 }
 
-/* AI Naming Button in Gallery */
-.ai-name-btn {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  background-color: var(--hentai-primary);
-  border: none;
-  color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.2s;
+#local_image_button:hover,
+#hentailocal-scraper-btn:hover {
+    opacity: 0.8;
 }
 
-.local-image-item:hover .ai-name-btn {
-  opacity: 1;
-}
+/* ========================================
+   Group Gallery Styles
+   ======================================== */
+.local-image-modal-large { max-width: 1100px; }
 
-.ai-naming-btn {
-  background-color: var(--hentai-accent);
-  border: none;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 4px;
-  margin-left: 12px;
-  cursor: pointer;
-  font-size: 12px;
-}
+.group-gallery-content { display: flex; flex-direction: column; gap: 20px; }
 
-.ai-naming-btn:hover {
-  opacity: 0.9;
-}
-
-/* ===========================================
-   Scraper Panel Styles
-   =========================================== */
-
-.scraper-panel-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
-  z-index: 10000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.scraper-panel {
-  background-color: var(--hentai-bg);
-  border: 1px solid var(--hentai-border);
-  border-radius: 8px;
-  width: 90vw;
-  max-width: 1200px;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.scraper-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--hentai-border);
-}
-
-.scraper-header h3 {
-  margin: 0;
-  color: var(--hentai-accent);
-}
-
-.scraper-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.scraper-search {
-  display: flex;
-  gap: 8px;
-  padding: 12px;
-  border-bottom: 1px solid var(--hentai-border);
-}
-
-.tag-autocomplete {
-  position: relative;
-  flex: 2;
-}
-
-.tag-input {
-  width: 100%;
-  background-color: var(--hentai-bg-secondary);
-  border: 1px solid var(--hentai-border);
-  color: var(--hentai-text);
-  padding: 8px 12px;
-  border-radius: 4px;
-}
-
-.suggestions-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: var(--hentai-bg-secondary);
-  border: 1px solid var(--hentai-border);
-  border-radius: 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-}
-
-.suggestion-item {
-  padding: 8px 12px;
-  cursor: pointer;
-  color: var(--hentai-text);
-}
-
-.suggestion-item:hover {
-  background-color: var(--hentai-primary);
-}
-
-.scraper-search select {
-  background-color: var(--hentai-bg-secondary);
-  border: 1px solid var(--hentai-border);
-  color: var(--hentai-text);
-  padding: 8px 12px;
-  border-radius: 4px;
-}
-
-.scraper-settings {
-  padding: 12px;
-  border-bottom: 1px solid var(--hentai-border);
-}
-
-.settings-divider {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--hentai-border);
-}
-
-.scraper-results {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-}
-
-.scraper-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
-}
-
-.scraper-image-card {
-  background-color: var(--hentai-bg-secondary);
-  border: 1px solid var(--hentai-border);
-  border-radius: 6px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-}
-
-.scraper-image-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.rating {
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.rating-s { background-color: #22c55e; color: white; }
-.rating-q { background-color: #eab308; color: black; }
-.rating-e { background-color: #ef4444; color: white; }
-
-.save-btn {
-  background-color: var(--hentai-primary);
-  border: none;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.scraper-error {
-  background-color: rgba(239, 68, 68, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.5);
-  color: #ff6b6b;
-  padding: 12px;
-  margin: 12px;
-  border-radius: 6px;
-}
-
-/* Booru Sites Grid */
-.booru-sites-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 8px;
-}
-
-.booru-site-btn {
-  background-color: var(--hentai-bg-tertiary);
-  border: 1px solid var(--hentai-border);
-  border-radius: 6px;
-  padding: 8px 12px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--hentai-text);
-}
-
-.booru-site-btn.enabled {
-  border-color: var(--hentai-primary);
-}
-
-.booru-site-btn .site-name {
-  font-weight: 500;
-}
-
-.booru-site-btn .site-category {
-  font-size: 10px;
-  color: var(--hentai-text-muted);
-  margin-left: 8px;
-}
-
-/* Settings Range */
-.settings-range {
-  flex: 1;
-  margin: 0 8px;
-}
-
-.settings-range-value {
-  width: 40px;
-  text-align: center;
-}
-
-/* ===========================================
-   Group Gallery Specific Styles
-   =========================================== */
-
-.group-gallery-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.group-section {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  overflow: hidden;
-}
+.group-section { background: rgba(0, 0, 0, 0.2); border-radius: 8px; overflow: hidden; }
 
 .group-section-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 15px;
-  background: rgba(0, 0, 0, 0.3);
-  color: var(--hentai-text);
-  font-weight: 600;
-  border-bottom: 1px solid var(--hentai-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--SmartThemeBodyColor, #fff);
+    font-weight: 600;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, #333);
 }
 
-.group-section-header i {
-  color: var(--hentai-primary);
+.group-section-header i { color: #b43cd8; }
+
+.section-count {
+    margin-left: auto;
+    font-size: 0.85em;
+    color: #b43cd8;
+    font-weight: normal;
 }
 
-.group-section-content {
-  padding: 15px;
-}
+.group-section-content { padding: 15px; }
+.group-members-list { display: flex; flex-direction: column; gap: 2px; }
 
-.group-members-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-/* Member Section (collapsible) */
-.group-member-section {
-  border-radius: 6px;
-  overflow: hidden;
-}
+.group-member-section { border-radius: 6px; overflow: hidden; }
 
 .group-member-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 15px;
-  background: rgba(255, 255, 255, 0.05);
-  cursor: pointer;
-  color: var(--hentai-text);
-  transition: background 0.15s;
-}
-
-.group-member-header:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.group-member-header i {
-  font-size: 0.8em;
-  opacity: 1 !important;
-  width: 12px;
-}
-
-.member-name {
-  font-weight: 500;
-}
-
-.member-count {
-  margin-left: auto;
-  font-size: 0.8em;
-  color: var(--hentai-primary);
-}
-
-.group-member-content {
-  padding: 10px 15px;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-/* ===========================================
-   Mobile Responsive
-   =========================================== */
-
-@media (max-width: 768px) {
-  .local-image-modal {
-    width: 95%;
-    max-height: 90vh;
-    margin: 10px;
-  }
-
-  .local-image-modal-large {
-    max-width: 95%;
-  }
-
-  .local-image-modal-header {
-    padding: 12px 15px;
-    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
     gap: 10px;
-  }
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    color: var(--SmartThemeBodyColor, #fff);
+    transition: background 0.15s;
+}
 
-  .local-image-modal-header h3 {
-    font-size: 1em;
-    flex: 1 1 100%;
-  }
+.group-member-header:hover { background: rgba(180, 60, 216, 0.1); }
+.group-member-header i { font-size: 0.8em; opacity: 1 !important; width: 12px; }
+.member-name { font-weight: 500; }
+.member-count { margin-left: auto; font-size: 0.8em; color: #b43cd8; }
+.group-member-content { padding: 10px 15px; background: rgba(0, 0, 0, 0.2); }
 
-  .local-image-modal-actions {
-    flex: 1 1 100%;
-    justify-content: flex-end;
-  }
+.local-image-grid-small { grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 8px; }
+.local-image-item-small { aspect-ratio: 1; }
+.local-image-item-small .assignment-label { padding: 2px 4px; font-size: 9px; }
+.local-image-item-small .assignment-name { font-size: 9px; }
 
-  .local-image-grid {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    gap: 8px;
-  }
+.local-image-empty-small { padding: 20px; text-align: center; color: #666; font-size: 0.9em; }
 
-  .local-image-grid-small {
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+/* ========================================
+   Floating Quick-Send Panel
+   ======================================== */
+.local-image-floating-button {
+    position: fixed;
+    right: 0.5rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--SmartThemeBlurTintColor, rgba(30, 30, 30, 0.9));
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    color: var(--SmartThemeBodyColor, #fff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10002;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.local-image-floating-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    border-color: #b43cd8;
+}
+
+.local-image-floating-button i { font-size: 18px; }
+
+.local-image-floating-panel {
+    position: fixed;
+    right: 0.5rem;
+    width: 280px;
+    max-height: 350px;
+    background: var(--SmartThemeBlurTintColor, rgba(30, 30, 30, 0.95));
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 10px;
+    z-index: 10003;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4), 0 0 40px rgba(180, 60, 216, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: floatingPanelSlideIn 0.2s ease;
+}
+
+@keyframes floatingPanelSlideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.floating-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, #444);
+    background: rgba(180, 60, 216, 0.1);
+}
+
+.floating-panel-header span { font-weight: 600; color: var(--SmartThemeBodyColor, #fff); font-size: 14px; }
+
+.floating-panel-close {
+    background: none;
+    border: none;
+    color: #888;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.floating-panel-close:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+
+.floating-panel-content { padding: 10px; overflow-y: auto; max-height: 340px; }
+
+.floating-panel-row {
+    display: flex;
+    flex-direction: column;
     gap: 6px;
-  }
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
 
-  .local-image-modal-content {
-    padding: 15px;
-  }
+.floating-panel-row:last-child { margin-bottom: 0; }
+.floating-panel-label { font-size: 13px; font-weight: 500; color: var(--SmartThemeBodyColor, #fff); }
+.floating-panel-label small { color: #888; font-weight: normal; }
+.floating-panel-controls { display: flex; gap: 8px; align-items: center; }
 
-  .group-section-header {
-    padding: 10px 12px;
-    font-size: 0.95em;
-  }
+.floating-panel-select {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: var(--SmartThemeBlurTintColor, #1a1a1a);
+    color: var(--SmartThemeBodyColor, #fff);
+    font-size: 13px;
+    cursor: pointer;
+}
 
-  .group-member-header {
+.floating-panel-select:focus { outline: none; border-color: #b43cd8; }
+
+.floating-panel-send {
     padding: 8px 12px;
-  }
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: rgba(180, 60, 216, 0.6);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.floating-panel-send:hover { background: #b43cd8; }
+.floating-panel-send i { font-size: 12px; }
+
+/* ========================================
+   HENTAILOCAL SCRAPER DRAWER
+   ======================================== */
+.hentailocal-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 480px;
+    height: 100vh;
+    background: var(--SmartThemeBlurTintColor, rgba(20, 20, 25, 0.98));
+    border-left: 1px solid var(--SmartThemeBorderColor, #333);
+    z-index: 99998;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(180, 60, 216, 0.05);
+    animation: drawerSlideIn 0.25s ease;
+}
+
+@keyframes drawerSlideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.hentailocal-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor, #333);
+    background: rgba(180, 60, 216, 0.08);
+    flex-shrink: 0;
+}
+
+.hentailocal-drawer-header h3 {
+    margin: 0;
+    color: #e06bff;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hentailocal-drawer-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.hentailocal-drawer-btn {
+    padding: 8px 10px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--SmartThemeBodyColor, #fff);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    transition: all 0.15s;
+}
+
+.hentailocal-drawer-btn:hover { background: rgba(180, 60, 216, 0.2); border-color: #b43cd8; }
+
+.hentailocal-drawer-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+}
+
+/* ========================================
+   SCRAPER PANEL
+   ======================================== */
+.hentailocal-scraper-panel {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.hentailocal-scraper-section {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 12px;
+    border: 1px solid rgba(180, 60, 216, 0.1);
+}
+
+.hentailocal-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #b43cd8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Site Selector */
+.hentailocal-site-selector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.hentailocal-site-btn {
+    padding: 6px 10px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--SmartThemeBodyColor, #ccc);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.8em;
+    transition: all 0.15s;
+}
+
+.hentailocal-site-btn:hover { border-color: #b43cd8; color: #fff; }
+
+.hentailocal-site-btn.active {
+    background: rgba(180, 60, 216, 0.25);
+    border-color: #b43cd8;
+    color: #e06bff;
+}
+
+.site-icon { font-size: 1.1em; }
+
+/* Search Row */
+.hentailocal-search-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.hentailocal-tag-input-container {
+    flex: 1;
+    position: relative;
+}
+
+.hentailocal-tag-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--SmartThemeBodyColor, #fff);
+    font-size: 0.9em;
+    transition: border-color 0.15s;
+}
+
+.hentailocal-tag-input:focus { outline: none; border-color: #b43cd8; }
+.hentailocal-tag-input::placeholder { color: #666; }
+
+/* Suggestions Dropdown */
+.hentailocal-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--SmartThemeBlurTintColor, #222);
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.hentailocal-suggestion-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--SmartThemeBodyColor, #ccc);
+    font-size: 0.85em;
+    transition: background 0.1s;
+}
+
+.hentailocal-suggestion-item:hover,
+.hentailocal-suggestion-item.selected {
+    background: rgba(180, 60, 216, 0.15);
+    color: #fff;
+}
+
+.suggestion-value { flex: 1; }
+.suggestion-category { color: #888; font-size: 0.8em; margin-left: 8px; }
+
+/* Buttons */
+.hentailocal-btn {
+    padding: 10px 14px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--SmartThemeBodyColor, #fff);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.85em;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.hentailocal-btn:hover:not(:disabled) { background: rgba(180, 60, 216, 0.2); border-color: #b43cd8; }
+.hentailocal-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.hentailocal-btn-search {
+    background: rgba(180, 60, 216, 0.4);
+    border-color: #b43cd8;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.hentailocal-btn-search:hover:not(:disabled) { background: #b43cd8; }
+
+.hentailocal-btn-save {
+    background: rgba(40, 167, 69, 0.3);
+    border-color: #28a745;
+}
+
+.hentailocal-btn-save:hover:not(:disabled) { background: rgba(40, 167, 69, 0.5); }
+
+.hentailocal-btn-ai {
+    background: rgba(180, 60, 216, 0.3);
+    border-color: #b43cd8;
+}
+
+.hentailocal-btn-ai:hover:not(:disabled) { background: rgba(180, 60, 216, 0.5); }
+
+.hentailocal-btn.active {
+    background: rgba(180, 60, 216, 0.4);
+    border-color: #b43cd8;
+    color: #e06bff;
+}
+
+.hentailocal-btn-batch-save {
+    background: rgba(180, 60, 216, 0.5);
+    border-color: #b43cd8;
+    color: #fff;
+}
+
+/* Filters */
+.hentailocal-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.hentailocal-filters .hentailocal-label {
+    margin-bottom: 0;
+}
+
+.hentailocal-select {
+    padding: 8px 10px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--SmartThemeBodyColor, #fff);
+    font-size: 0.85em;
+    cursor: pointer;
+}
+
+.hentailocal-select:focus { outline: none; border-color: #b43cd8; }
+
+.hentailocal-input {
+    padding: 8px 10px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--SmartThemeBodyColor, #fff);
+    font-size: 0.85em;
+}
+
+.hentailocal-input:focus { outline: none; border-color: #b43cd8; }
+.hentailocal-input-sm { max-width: 120px; }
+
+/* Batch Bar */
+.hentailocal-batch-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* Status & Error */
+.hentailocal-status {
+    background: rgba(180, 60, 216, 0.1);
+    border: 1px solid rgba(180, 60, 216, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #e06bff;
+    font-size: 0.85em;
+}
+
+.hentailocal-error {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #ff6b6b;
+    font-size: 0.85em;
+}
+
+/* Results Grid */
+.hentailocal-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.hentailocal-result-wrapper {
+    position: relative;
+}
+
+.hentailocal-batch-check {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    z-index: 10;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #b43cd8;
+}
+
+/* Image Card */
+.hentailocal-image-card {
+    border: 1px solid var(--SmartThemeBorderColor, #333);
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.2);
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.hentailocal-image-card:hover {
+    border-color: #b43cd8;
+    transform: translateY(-2px);
+}
+
+.hentailocal-image-thumb {
+    aspect-ratio: 1;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+
+.hentailocal-image-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.hentailocal-image-thumb:hover img { transform: scale(1.05); }
+
+.hentailocal-image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+    padding: 15px 8px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 0.7em;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.hentailocal-image-thumb:hover .hentailocal-image-overlay { opacity: 1; }
+
+.hentailocal-image-site { font-weight: 600; }
+.hentailocal-image-score { color: #ffd700; }
+
+.hentailocal-image-rating {
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.rating-s { background: #28a745; color: #fff; }
+.rating-q { background: #ffc107; color: #000; }
+.rating-e { background: #dc3545; color: #fff; }
+
+.hentailocal-image-actions {
+    display: flex;
+    gap: 4px;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.hentailocal-image-actions .hentailocal-btn {
+    flex: 1;
+    padding: 6px 8px;
+    font-size: 0.8em;
+    min-height: 32px;
+}
+
+/* Pagination */
+.hentailocal-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+}
+
+.hentailocal-page-info {
+    color: var(--SmartThemeBodyColor, #ccc);
+    font-size: 0.9em;
+}
+
+/* Scraper Lightbox */
+.hentailocal-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100010;
+    cursor: pointer;
+}
+
+.hentailocal-lightbox-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: default;
+}
+
+.hentailocal-lightbox-content img {
+    max-width: 80vw;
+    max-height: 70vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(180, 60, 216, 0.2);
+}
+
+.hentailocal-lightbox-info {
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    padding: 10px 15px;
+    display: flex;
+    gap: 15px;
+    font-size: 0.85em;
+    color: #ccc;
+    flex-wrap: wrap;
+}
+
+.hentailocal-lightbox-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    width: 100%;
+}
+
+.hentailocal-tag-chip {
+    background: rgba(180, 60, 216, 0.2);
+    border: 1px solid rgba(180, 60, 216, 0.3);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.75em;
+    color: #e06bff;
+}
+
+.hentailocal-tag-more { color: #888; font-size: 0.75em; padding: 2px 6px; }
+
+.hentailocal-lightbox-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.hentailocal-lightbox-actions button {
+    padding: 10px 20px;
+    border: 1px solid var(--SmartThemeBorderColor, #444);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85em;
+    transition: all 0.15s;
+}
+
+.hentailocal-lightbox-actions button:hover {
+    background: rgba(180, 60, 216, 0.3);
+    border-color: #b43cd8;
+}
+
+/* ========================================
+   EXTENSION SETTINGS PANEL
+   ======================================== */
+.hentailocal-settings {
+    border-top: 1px solid var(--SmartThemeBorderColor, #333);
+    padding: 15px 0;
+}
+
+.hentailocal-settings-header h4 {
+    margin: 0 0 15px 0;
+    color: #e06bff;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hentailocal-settings-section {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(180, 60, 216, 0.1);
+}
+
+.hentailocal-settings-section h5 {
+    margin: 0 0 10px 0;
+    color: #b43cd8;
+    font-size: 0.9em;
+}
+
+.hentailocal-settings-row {
+    margin-bottom: 8px;
+}
+
+.hentailocal-settings-row label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.85em;
+    color: #aaa;
+}
+
+.hentailocal-settings-row input,
+.hentailocal-settings-row select {
+    width: 100%;
+}
+
+.hentailocal-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--SmartThemeBodyColor, #ccc);
+    font-size: 0.85em;
+}
+
+.hentailocal-checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #b43cd8;
+}
+
+.hentailocal-settings-hint {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 8px;
+    font-style: italic;
+}
+
+/* ========================================
+   Mobile Responsive
+   ======================================== */
+@media (max-width: 768px) {
+    .local-image-modal { width: 95%; max-height: 90vh; margin: 10px; }
+    .local-image-modal-header { padding: 12px 15px; flex-wrap: wrap; gap: 10px; }
+    .local-image-modal-header h3 { font-size: 1em; flex: 1 1 100%; }
+    .local-image-modal-actions { flex: 1 1 100%; justify-content: flex-end; }
+    .local-image-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+    .local-image-modal-content { padding: 15px; }
+
+    .hentailocal-drawer { width: 100%; }
+    .hentailocal-results { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+    .hentailocal-site-selector { gap: 4px; }
+    .hentailocal-site-btn { padding: 4px 8px; font-size: 0.75em; }
+    .site-name { display: none; }
+
+    .local-image-modal-large { max-width: 95%; }
+    .group-section-header { padding: 10px 12px; font-size: 0.95em; }
+    .group-member-header { padding: 8px 12px; }
+    .local-image-grid-small { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; }
 }
 
 @media (hover: none) and (pointer: coarse) {
-  .local-image-item {
-    min-height: 100px;
-  }
-
-  .local-image-modal-actions button {
-    min-width: 44px;
-    height: 44px;
-  }
+    .local-image-item { min-height: 100px; }
+    .local-image-modal-actions button { min-width: 44px; height: 44px; }
+    .hentailocal-image-overlay { opacity: 1; }
 }
